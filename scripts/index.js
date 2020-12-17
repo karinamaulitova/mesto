@@ -23,17 +23,13 @@ function handleFormSubmit (evt) {
 
     let nameInputValue = nameInput.value;
     let jobInputValue = jobInput.value;
-    // Получите значение полей из свойства value
-
+   
     let name = document.querySelector('.profile__heading');
     let job = document.querySelector('.profile__subheading');
 
     name.textContent = nameInputValue;
     job.textContent = jobInputValue;
 
-    // Выберите элементы, куда должны быть вставлены значения полей
-
-    // Вставьте новые значения с помощью textContent
     closePopup();
 }
 
