@@ -8,6 +8,9 @@
   border: 2px solid #ffffff;
   border-radius: 2px;
   font-size: 0;
+  background-image: url('../../../images/add-icon.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .profile__adding-button:hover {

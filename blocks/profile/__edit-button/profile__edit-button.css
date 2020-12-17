@@ -8,6 +8,9 @@
   background-color: #000000;
   font-size: 0;
   margin-left: 18px;
+  background-image: url('../../../images/edit-icon.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .profile__edit-button:hover {

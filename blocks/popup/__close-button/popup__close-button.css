@@ -5,6 +5,13 @@
   position: absolute;
   top: -40px;
   right: -40px;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  background-image: url('../../../images/close-icon.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .popup__close-button:hover {
@@ -15,7 +22,7 @@
   .popup__close-button {
     width: 26px;
     height: 26px;
-    right: 13px;
-    top: -40px;
+    right: -20px;
+    top: -20px;
   }
 }
