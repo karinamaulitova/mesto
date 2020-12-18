@@ -1,9 +1,18 @@
 let popup = document.querySelector('.popup');
 let editButton = document.querySelector('.profile__edit-button');
 let closeButton = document.querySelector('.popup__close-button');
+let formElement = document.querySelector('.popup__form');
+let nameInput = formElement.querySelector('.popup__input_type_name');
+let jobInput = formElement.querySelector('.popup__input_type_job');
+let name = document.querySelector('.profile__heading');
+let job = document.querySelector('.profile__subheading');
+
 
 function openPopup () {
     popup.classList.add('popup_opened');
+
+    nameInput.value = name.textContent;
+    jobInput.value = job.textContent;
 }
 
 
@@ -11,30 +20,17 @@ function closePopup () {
     popup.classList.remove('popup_opened');
 }
 
-editButton.addEventListener('click', openPopup);
-closeButton.addEventListener('click', closePopup);
 
-
-let formElement = document.querySelector('.popup__form');
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
-    let nameInput = formElement.querySelector('.popup__input_type_name');
-    let jobInput = formElement.querySelector('.popup__input_type_job');
 
-    let nameInputValue = nameInput.value;
-    let jobInputValue = jobInput.value;
-    // Получите значение полей из свойства value
+    name.textContent = nameInput.value;
+    job.textContent = jobInput.value;;
 
-    let name = document.querySelector('.profile__heading');
-    let job = document.querySelector('.profile__subheading');
-
-    name.textContent = nameInputValue;
-    job.textContent = jobInputValue;
-
-    // Выберите элементы, куда должны быть вставлены значения полей
-
-    // Вставьте новые значения с помощью textContent
     closePopup();
 }
 
+
+editButton.addEventListener('click', openPopup);
+closeButton.addEventListener('click', closePopup);
 formElement.addEventListener('submit', handleFormSubmit); 

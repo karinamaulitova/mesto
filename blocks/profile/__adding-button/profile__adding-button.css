@@ -8,6 +8,10 @@
   border: 2px solid #ffffff;
   border-radius: 2px;
   font-size: 0;
+  background-image: url('../../../images/add-icon.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .profile__adding-button:hover {
@@ -16,7 +20,7 @@
 
 @media screen and (max-width: 767px) {
     .profile__adding-button {
-      max-width: 282px;
+      width: 282px;
       margin-top: 36px;
     }
   }
