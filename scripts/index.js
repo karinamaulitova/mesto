@@ -11,8 +11,8 @@ let job = document.querySelector('.profile__subheading');
 function openPopup () {
     popup.classList.add('popup_opened');
 
-    nameInput.textContent = name.value;
-    jobInput.textContent = job.value;
+    nameInput.value = name.textContent;
+    jobInput.value = job.textContent;
 }
 
 
