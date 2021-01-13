@@ -1,36 +1,75 @@
-let popup = document.querySelector('.popup');
-let editButton = document.querySelector('.profile__edit-button');
-let closeButton = document.querySelector('.popup__close-button');
-let formElement = document.querySelector('.popup__form');
-let nameInput = formElement.querySelector('.popup__input_type_name');
-let jobInput = formElement.querySelector('.popup__input_type_job');
-let name = document.querySelector('.profile__heading');
-let job = document.querySelector('.profile__subheading');
+const editPopup = document.querySelector('#edit-profile-popup');
+const editButton = document.querySelector('#profile-edit-button');
+const editPopupCloseButton = document.querySelector('#edit-profile-popup-close-button');
+const editPopupFormElement = document.querySelector('#edit-profile-popup-form');
+const editPopupNameInput = editPopupFormElement.querySelector('#edit-profile-popup-name-input');
+const editPopupJobInput = editPopupFormElement.querySelector('#edit-profile-popup-job-input');
+const editPopupName = document.querySelector('#profile-heading');
+const editPopupJob = document.querySelector('#profile-subheading');
+const cardsContainer = document.querySelector('#elements-list');
 
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+
+  function addCard(nameValue, linkValue) {
+    const cardTemplate = document.querySelector('#element-template').content;
+    const cardElement = cardTemplate.cloneNode(true);
+
+    cardElement.querySelector('.elements__description').textContent = nameValue;
+    cardElement.querySelector('.elements__photo').src = linkValue;
+
+    cardsContainer.append(cardElement);
+  }
+
+  addCard(initialCards[0].name, initialCards[0].link);
 
 function openPopup () {
-    popup.classList.add('popup_opened');
+    editPopup.classList.add('popup_opened');
 
-    nameInput.value = name.textContent;
-    jobInput.value = job.textContent;
+    editPopupNameInput.value = editPopupName.textContent;
+    editPopupJobInput.value = editPopupJob.textContent;
 }
 
 
 function closePopup () {
-    popup.classList.remove('popup_opened');
+    editPopup.classList.remove('popup_opened');
 }
 
 
 function handleFormSubmit (evt) {
     evt.preventDefault(); 
 
-    name.textContent = nameInput.value;
-    job.textContent = jobInput.value;;
+    editPopupName.textContent = editPopupNameInput.value;
+    editPopupJob.textContent = editPopupJobInput.value;;
 
     closePopup();
 }
 
 
 editButton.addEventListener('click', openPopup);
-closeButton.addEventListener('click', closePopup);
-formElement.addEventListener('submit', handleFormSubmit); 
+editPopupCloseButton.addEventListener('click', closePopup);
+editPopupFormElement.addEventListener('submit', handleFormSubmit); 
