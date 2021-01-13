@@ -28,51 +28,11 @@
                         <p class="profile__subheading" id="profile-subheading">Исследователь океана</p>
                     </div>
                 </div>
-                <button class="profile__adding-button" type="button"></button>
+                <button class="profile__adding-button" id="card-adding-button" type="button"></button>
             </section>
 
             <section class="elements" aria-label="Карточки с фотографиями">
                 <ul class="elements__list" id="elements-list">
-                    <!-- <li class="elements__item">
-                        <img class="elements__photo" src="./images/elbrus.jpg" alt="Фото горной равнины">
-                        <div class="elements__description-container">
-                            <h2 class="elements__description">Гора Эльбрус</h2>
-                            <button class="elements__like-button" type="button">
-                            </button>
-                        </div>
-                    </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/dombai.jpg" alt="Фото горы">
-                        <div class="elements__description-container">
-                            <h2 class="elements__description">Домбай</h2>
-                            <button class="elements__like-button" type="button">
-                            </button>
-                        </div>
-                    </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/elbrus.jpg" alt="Фото горной равнины">
-                        <div class="elements__description-container">
-                            <h2 class="elements__description">Гора Эльбрус</h2>
-                            <button class="elements__like-button" type="button">
-                            </button>
-                        </div>
-                    </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/dombai.jpg" alt="Фото горы">
-                        <div class="elements__description-container">
-                            <h2 class="elements__description">Домбай</h2>
-                            <button class="elements__like-button" type="button">
-                            </button>
-                        </div>
-                    </li>
-                    <li class="elements__item">
-                        <img class="elements__photo" src="./images/karachaevsk.jpg" alt="Фото церкви">
-                        <div class="elements__description-container">
-                            <h2 class="elements__description">Карачаево-Черкессия</h2>
-                            <button class="elements__like-button" type="button">
-                            </button>
-                        </div>
-                    </li> -->
                 </ul>
             </section>
 
@@ -86,8 +46,10 @@
             <div class="popup__container">
                 <h2 class="popup__heading">Редактировать профиль</h2>
                 <form class="popup__form" id="edit-profile-popup-form" name="profile">
-                    <input class="popup__input" id="edit-profile-popup-name-input" type="text" name="name" value="Жак-Ив Кусто">
-                    <input class="popup__input" id="edit-profile-popup-job-input" type="text" name="job" value="Исследователь океана">
+                    <input class="popup__input" id="edit-profile-popup-name-input" type="text" name="name"
+                        value="Жак-Ив Кусто">
+                    <input class="popup__input" id="edit-profile-popup-job-input" type="text" name="job"
+                        value="Исследователь океана">
                     <button class="popup__save-button" type="submit">Сохранить</button>
                 </form>
                 <button class="popup__close-button" id="edit-profile-popup-close-button" type="button">
@@ -96,15 +58,17 @@
 
         </section>
 
-        <section class="popup">
+        <section class="popup" id="card-adding-popup">
             <div class="popup__container">
                 <h2 class="popup__heading">Новое место</h2>
-                <form class="popup__form" name="profile">
-                    <input class="popup__input popup__input_type_place-name" type="text" name="place-name" value="Название">
-                    <input class="popup__input popup__input_type_image-link" type="text" name="image-link" value="Ссылка на картинку">
+                <form class="popup__form" id="card-adding-popup-form" name="new-card">
+                    <input class="popup__input" id="card-adding-popup-place-name-input" type="text" name="place-name"
+                        value="Название">
+                    <input class="popup__input" id="card-adding-popup-image-link-input" type="text" name="image-link"
+                        value="Ссылка на картинку">
                     <button class="popup__save-button" type="submit">Создать</button>
                 </form>
-                <button class="popup__close-button" type="button">
+                <button class="popup__close-button" id="card-adding-popup-close-button" type="button">
                 </button>
             </div>
 
@@ -120,9 +84,21 @@
                 <button class="elements__like-button" type="button">
                 </button>
             </div>
+            <button class="elements__delete-button" type="button"></button>
         </li>
     </template>
 
+    <template id="photo-popup-template">
+        <section class="photo-popup">
+            <div class="photo-popup__container">
+                <figure class="photo-popup__image-wrapper">
+                    <img class="photo-popup__image" alt="Фото места">
+                    <figcaption class="photo-popup__description"></figcaption>
+                </figure>
+                <button class="photo-popup__close-button" type="button"></button>
+            </div>
+        </section>
+    </template>
     <script src="./scripts/index.js"></script>
 
 </body>
