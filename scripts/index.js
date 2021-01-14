@@ -91,7 +91,10 @@ function addCard(card) {
 
     cardPopupCloseButton.addEventListener("click", function () {
       const cardPopupItem = cardPopupCloseButton.closest(".photo-popup");
-      cardPopupItem.remove();
+      cardPopupItem.classList.add("photo-popup_closed");
+      setTimeout(() => {
+        cardPopupItem.remove();
+      }, 500);
     });
 
     document.body.append(cardPopupElement);
