@@ -11,5 +11,8 @@
   margin: 0 auto;
   box-sizing: border-box;
   z-index: 100;
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s linear;
+  display: flex;
 }

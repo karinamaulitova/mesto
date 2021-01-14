@@ -89,9 +89,9 @@ function addCard(card) {
       card.name;
     cardPopupElement.querySelector(".photo-popup__image").src = card.link;
 
-    cardPopupCloseButton.addEventListener("click", function() {
-        const cardPopupItem = cardPopupCloseButton.closest(".photo-popup");
-        cardPopupItem.remove();
+    cardPopupCloseButton.addEventListener("click", function () {
+      const cardPopupItem = cardPopupCloseButton.closest(".photo-popup");
+      cardPopupItem.remove();
     });
 
     document.body.append(cardPopupElement);
