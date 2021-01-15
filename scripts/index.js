@@ -30,6 +30,12 @@ const cardAddingPopupImageLinkInput = cardAddingPopupFormElement.querySelector(
 
 const cardContainer = document.querySelector("#elements-list");
 
+const cardPopup = document.querySelector(".photo-popup");
+
+const cardPopupCloseButton = document.querySelector(
+  ".photo-popup__close-button"
+);
+
 function openPopup(popup) {
   popup.classList.add("popup_opened");
 }
@@ -48,15 +54,12 @@ function createCard(cardData) {
 
   const cardImage = cardElement.querySelector(".elements__photo");
 
-  cardElement.querySelector(".elements__description").textContent = cardData.name;
+  cardElement.querySelector(".elements__description").textContent =
+    cardData.name;
   cardElement.querySelector(".elements__photo").src = cardData.link;
   cardElement.querySelector(".elements__photo").alt = cardData.name;
 
   cardImage.addEventListener("click", function () {
-    const cardPopup = document.querySelector(".photo-popup");
-    const cardPopupCloseButton = cardPopup.querySelector(
-      ".photo-popup__close-button"
-    );
 
     openPopup(cardPopup);
 
@@ -64,10 +67,10 @@ function createCard(cardData) {
       cardData.name;
     cardPopup.querySelector(".photo-popup__image").src = cardData.link;
     cardPopup.querySelector(".photo-popup__image").alt = cardData.name;
+  });
 
-    cardPopupCloseButton.addEventListener("click", () => {
-      closePopup(cardPopup);
-    });
+  cardPopupCloseButton.addEventListener("click", () => {
+    closePopup(cardPopup);
   });
 
   likeButton.addEventListener("click", function () {
