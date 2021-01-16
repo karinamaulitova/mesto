@@ -69,9 +69,6 @@ function createCard(cardData) {
     cardPopup.querySelector(".photo-popup__image").alt = cardData.name;
   });
 
-  cardPopupCloseButton.addEventListener("click", () => {
-    closePopup(cardPopup);
-  });
 
   likeButton.addEventListener("click", function () {
     likeButton.classList.toggle("elements__like-button_active");
@@ -120,6 +117,12 @@ function handleCardAddingFormSubmit(evt) {
 initialCards.reverse().forEach((cardData) => {
   addCard(cardContainer, createCard(cardData));
 });
+
+
+cardPopupCloseButton.addEventListener("click", () => {
+  closePopup(cardPopup);
+});
+
 editButton.addEventListener("click", () => {
   openPopup(editPopup);
 });
