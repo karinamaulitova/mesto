@@ -43,13 +43,15 @@
         </footer>
 
         <section class="popup" id="edit-profile-popup">
-            <div class="popup__container">
+            <div class="popup__form-container popup__container">
                 <h2 class="popup__heading">Редактировать профиль</h2>
-                <form class="popup__form" id="edit-profile-popup-form" name="profile">
+                <form class="popup__form" id="edit-profile-popup-form" name="profile" novalidate>
                     <input class="popup__input" id="edit-profile-popup-name-input" type="text" name="name"
-                        placeholder="Имя" value="Жак-Ив Кусто">
+                        placeholder="Имя" value="Жак-Ив Кусто" required minlength="2" maxlength="40">
+                    <span class="popup__input-error edit-profile-popup-name-input-error"></span>
                     <input class="popup__input" id="edit-profile-popup-job-input" type="text" name="job"
-                        placeholder="Род занятий" value="Исследователь океана">
+                        placeholder="Род занятий" value="Исследователь океана" required minlength="2" maxlength="200">
+                    <span class="popup__input-error edit-profile-popup-job-input-error"></span>
                     <button class="popup__save-button" type="submit">Сохранить</button>
                 </form>
                 <button class="popup__close-button" id="edit-profile-popup-close-button" type="button">
@@ -59,13 +61,15 @@
         </section>
 
         <section class="popup" id="card-adding-popup">
-            <div class="popup__container">
+            <div class="popup__form-container popup__container">
                 <h2 class="popup__heading">Новое место</h2>
-                <form class="popup__form" id="card-adding-popup-form" name="new-card">
+                <form class="popup__form" id="card-adding-popup-form" name="new-card" novalidate>
                     <input class="popup__input" id="card-adding-popup-place-name-input" type="text" name="place-name"
-                        placeholder="Название">
-                    <input class="popup__input" id="card-adding-popup-image-link-input" type="text" name="image-link"
-                        placeholder="Ссылка на картинку">
+                        placeholder="Название" required minlength="2" maxlength="30">
+                    <span class="popup__input-error card-adding-popup-place-name-input-error"></span>
+                    <input class="popup__input" id="card-adding-popup-image-link-input" type="url" name="image-link"
+                        placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error card-adding-popup-image-link-input-error"></span>
                     <button class="popup__save-button" type="submit">Создать</button>
                 </form>
                 <button class="popup__close-button" id="card-adding-popup-close-button" type="button">
@@ -77,7 +81,7 @@
     </div>
 
     <section class="photo-popup popup" aria-label="Фото попап">
-        <div class="photo-popup__container">
+        <div class="photo-popup__container popup__container">
             <figure class="photo-popup__image-wrapper">
                 <img class="photo-popup__image"
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
@@ -104,6 +108,7 @@
 
     <script src="./scripts/initial-cards.js"></script>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
 
 </body>
 
