@@ -27,6 +27,10 @@ const cardAddingPopupImageLinkInput = cardAddingPopupFormElement.querySelector(
 const cardContainer = document.querySelector("#elements-list");
 
 const cardPopup = document.querySelector(".photo-popup");
+const cardPopupDescription = cardPopup.querySelector(
+  ".photo-popup__description"
+);
+const cardPopupImage = cardPopup.querySelector(".photo-popup__image");
 
 function handleStopEventPropagation(evt) {
   evt.stopPropagation();
@@ -87,18 +91,17 @@ function createCard(cardData) {
 
   const cardImage = cardElement.querySelector(".elements__photo");
 
-  cardElement.querySelector(".elements__description").textContent =
-    cardData.name;
-  cardElement.querySelector(".elements__photo").src = cardData.link;
-  cardElement.querySelector(".elements__photo").alt = cardData.name;
+  cardPopupDescription.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
 
   cardImage.addEventListener("click", function () {
     openPopup(cardPopup);
 
-    cardPopup.querySelector(".photo-popup__description").textContent =
+    cardPopupDescription.textContent =
       cardData.name;
-    cardPopup.querySelector(".photo-popup__image").src = cardData.link;
-    cardPopup.querySelector(".photo-popup__image").alt = cardData.name;
+      cardPopupImage.src = cardData.link;
+      cardPopupImage.alt = cardData.name;
   });
 
   likeButton.addEventListener("click", function () {
