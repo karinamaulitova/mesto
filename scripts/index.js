@@ -51,13 +51,13 @@ function openPopup(popup) {
   document.addEventListener("keydown", closeByEscape);
 }
 
-
 popups.forEach((popup) => {
   popup.addEventListener("click", (evt) => {
     if (evt.target.classList.contains("popup_opened")) {
       closePopup(popup);
-    }  if (evt.target.classList.contains('popup__close-button')) {
-      closePopup(popup)
+    }
+    if (evt.target.classList.contains("popup__close-button")) {
+      closePopup(popup);
     }
   });
 });
@@ -67,10 +67,13 @@ function createCard(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
 
   const likeButton = cardElement.querySelector(".elements__like-button");
+  const descriptionElement = cardElement.querySelector(".elements__description");
 
   const deleteButton = cardElement.querySelector(".elements__delete-button");
 
   const cardImage = cardElement.querySelector(".elements__photo");
+
+  descriptionElement.textContent = cardData.name;
 
   cardPopupDescription.textContent = cardData.name;
   cardImage.src = cardData.link;
