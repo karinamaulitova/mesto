@@ -1,4 +1,5 @@
 import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
 
 const editPopup = document.querySelector("#edit-profile-popup");
 const editButton = document.querySelector("#profile-edit-button");
@@ -33,7 +34,7 @@ const cardPopup = document.querySelector(".photo-popup");
 const popups = document.querySelectorAll(".popup");
 
 function addCard(data) {
-  const card = new Card(data,"#element-template");
+  const card = new Card(data, "#element-template");
   cardContainer.prepend(card.generateCard());
 }
 
@@ -94,7 +95,6 @@ function handleCardAddingFormSubmit(evt) {
   cardAddingPopupFormElement.reset();
 }
 
-
 editButton.addEventListener("click", () => {
   openEditPopup();
 });
@@ -112,5 +112,22 @@ cardAddingPopupFormElement.addEventListener(
 
 initialCards.reverse().forEach((cardData) => {
   addCard(cardData);
-})
+});
 
+const formsConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__save-button",
+  inactiveButtonClass: "popup__save-button_inactive",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
+
+const formList = Array.from(
+  document.querySelectorAll(formsConfig.formSelector)
+);
+formList.forEach((formElement) => {
+  const formValidator = new FormValidator(formsConfig, formElement);
+
+  formValidator.enableValidation();
+});
