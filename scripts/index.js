@@ -123,11 +123,9 @@ const formsConfig = {
   errorClass: "popup__input-error_active",
 };
 
-const formList = Array.from(
-  document.querySelectorAll(formsConfig.formSelector)
-);
-formList.forEach((formElement) => {
-  const formValidator = new FormValidator(formsConfig, formElement);
+const editPopupFormValidator = new FormValidator(formsConfig, editPopupFormElement);
+editPopupFormValidator.enableValidation();
 
-  formValidator.enableValidation();
-});
+const cardAddingPopupFormValidator = new FormValidator(formsConfig, cardAddingPopupFormElement);
+cardAddingPopupFormValidator.enableValidation();
+

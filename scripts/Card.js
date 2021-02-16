@@ -59,7 +59,7 @@ export default class Card {
     );
     this._setEventListeners();
 
-    this._element.querySelector(".elements__photo").src = this._image;
+    this._imageElement.src = this._image;
     this._element.querySelector(
       ".elements__description"
     ).textContent = this._description;
