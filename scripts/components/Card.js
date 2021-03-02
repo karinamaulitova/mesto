@@ -1,12 +1,10 @@
-const photoPopupElement = document.querySelector(".photo-popup");
-const photoPopupDescriptionElement = photoPopupElement.querySelector(".photo-popup__description");
-const photoPopupImageElement = photoPopupElement.querySelector(".photo-popup__image");
 
 export default class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._image = data.link;
     this._description = data.name;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -15,13 +13,6 @@ export default class Card {
       .content.cloneNode(true);
 
     return cardElement;
-  }
-
-  _handleOpenPopup() {
-    photoPopupElement.classList.add("popup_opened");
-    photoPopupDescriptionElement .textContent = this._description;
-    photoPopupImageElement.src = this._image;
-    photoPopupImageElement.alt = this._description;
   }
 
   _handleLike() {
@@ -35,11 +26,10 @@ export default class Card {
 
   _setEventListeners() {
     this._imageElement.addEventListener("click", () => {
-      this._handleOpenPopup();
+      this._handleCardClick(this._image, this._description);
     });
 
     this._likeButtonElement.addEventListener("click", () => {
-      console.log("меня нажали");
       this._handleLike();
     });
 
