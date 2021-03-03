@@ -5,21 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto</title>
-    <link rel="stylesheet" href="./pages/index.css">
 </head>
 
 <body>
     <div class="page">
 
         <header class="header">
-            <img class="header__logo" src="./images/logo.svg" alt="Логотип">
+            <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
         </header>
 
         <main class="content">
 
             <section class="profile">
                 <div class="profile__container">
-                    <img class="profile__avatar" src="./images/profile-photo.jpg" alt="Фото Жак-Ива Кусто">
+                    <img class="profile__avatar" src="<%=require('./images/profile-photo.jpg')%>"
+                        alt="Фото Жак-Ива Кусто">
                     <div class="profile__info-wrapper">
                         <div class="profile__heading-button-wrapper">
                             <h1 class="profile__heading" id="profile-heading">Жак-Ив Кусто</h1>
@@ -80,7 +80,7 @@
 
     </div>
 
-    <section class="photo-popup popup"  id="photo-popup" aria-label="Фото попап">
+    <section class="photo-popup popup" id="photo-popup" aria-label="Фото попап">
         <div class="photo-popup__container popup__container">
             <figure class="photo-popup__image-wrapper">
                 <img class="photo-popup__image"
@@ -88,7 +88,8 @@
                     alt="Фото места">
                 <figcaption class="photo-popup__description"></figcaption>
             </figure>
-            <button class="photo-popup__close-button popup__close-button popup__close-button_type_photo-mobile" type="button"></button>
+            <button class="photo-popup__close-button popup__close-button popup__close-button_type_photo-mobile"
+                type="button"></button>
         </div>
     </section>
 
@@ -105,13 +106,6 @@
             <button class="elements__delete-button" type="button"></button>
         </li>
     </template>
-
-    <script src="./scripts/utils/initial-cards.js"></script>
-    <script type="module" src="./scripts/pages/index.js"></script>
-    <script type="module" src="./scripts/components/Card.js"></script>
-    <script type="module" src="./scripts/components/FormValidator.js"></script>
-    <script type="module" src="./scripts/components/Section.js"></script>
-
 
 </body>
 
