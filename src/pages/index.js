@@ -1,10 +1,10 @@
-import "../../pages/index.css";
-import Card from "../components/Card.js";
-import FormValidator from "../components/FormValidator.js";
-import Section from "../components/Section.js";
-import PopupWithForm from "../components/PopupWithForm.js";
-import UserInfo from "../components/UserInfo.js";
-import PopupWithImage from "../components/PopupWithImage.js";
+import "./index.css";
+import Card from "../scripts/components/Card.js";
+import FormValidator from "../scripts/components/FormValidator.js";
+import Section from "../scripts/components/Section.js";
+import PopupWithForm from "../scripts/components/PopupWithForm.js";
+import UserInfo from "../scripts/components/UserInfo.js";
+import PopupWithImage from "../scripts/components/PopupWithImage.js";
 import {
   editButton,
   editPopupFormElement,
@@ -13,8 +13,8 @@ import {
   cardAddingButton,
   cardAddingPopupFormElement,
   formsConfig,
-} from "../utils/constants.js";
-import { initialCards } from "../utils/initial-cards.js";
+} from "../scripts/utils/constants.js";
+import { initialCards } from "../scripts/utils/initial-cards.js";
 
 const photoPopup = new PopupWithImage(".photo-popup");
 photoPopup.setEventListeners();
@@ -57,9 +57,14 @@ function handleCardAddingFormSubmit(data) {
     link: data["image-link"],
   };
 
-  const card = new Card(newCardData, "#element-template", handleOpenPhotoPoup);
+  const newCardElement = createCard(newCardData);
 
-  cardsList.addItem(card.generateCard());
+  cardsList.addItem(newCardElement);
+}
+
+function createCard(data) {
+  const card = new Card(data, "#element-template", handleOpenPhotoPoup);
+  return card.generateCard();
 }
 
 editButton.addEventListener("click", () => {
@@ -74,8 +79,7 @@ const cardsList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, "#element-template", handleOpenPhotoPoup);
-      const cardElement = card.generateCard();
+      const cardElement = createCard(item);
       cardsList.addItem(cardElement);
     },
   },
