@@ -75,18 +75,27 @@ cardAddingButton.addEventListener("click", () => {
   cardAddingPopup.open();
 });
 
-const cardsList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = createCard(item);
-      cardsList.addItem(cardElement);
-    },
+fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
+  headers: {
+    authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
   },
-  "#elements-list"
-);
+})
+  .then((res) => res.json())
+  .then((data) => {
+    console.log(data);
+    const cardsList = new Section(
+      {
+        items: data,
+        renderer: (item) => {
+          const cardElement = createCard(item);
+          cardsList.addItem(cardElement);
+        },
+      },
+      "#elements-list"
+    );
 
-cardsList.renderItems();
+    cardsList.renderItems();
+  });
 
 const editPopupFormValidator = new FormValidator(
   formsConfig,
@@ -99,3 +108,19 @@ const cardAddingPopupFormValidator = new FormValidator(
   cardAddingPopupFormElement
 );
 cardAddingPopupFormValidator.enableValidation();
+
+const userAvatar = document.querySelector(".profile__avatar");
+
+fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
+  headers: {
+    authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+  },
+})
+  .then((res) => res.json())
+  .then((result) => {
+    userAvatar.src = result.avatar;
+    userInfo.setUserInfo({
+      name: result.name,
+      job: result.about,
+    });
+  });
