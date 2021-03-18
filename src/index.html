@@ -18,7 +18,7 @@
 
             <section class="profile">
                 <div class="profile__container">
-                    <img class="profile__avatar" src='./images/profile-photo.jpg' alt=" Фото Жак-Ива Кусто">
+                    <img class="profile__avatar" src='./images/profile-photo.jpg' alt="Фото">
                     <div class="profile__info-wrapper">
                         <div class="profile__heading-button-wrapper">
                             <h1 class="profile__heading" id="profile-heading">Жак-Ив Кусто</h1>
@@ -77,6 +77,17 @@
 
         </section>
 
+        <section class="popup" id="card-deleting-popup">
+            <div class="popup__form-container popup__container">
+                <h2 class="popup__heading">Вы уверены?</h2>
+                <form class="popup__form" id="card-deleting-popup-form" name="delete-card" novalidate>
+                    <button class="popup__save-button" type="submit">Да</button>
+                </form>
+                <button class="popup__close-button" id="card-delete-popup-close-button" type="button">
+                </button>
+            </div>
+        </section>
+
     </div>
 
     <section class="photo-popup popup" id="photo-popup" aria-label="Фото попап">
@@ -92,6 +103,7 @@
         </div>
     </section>
 
+
     <template id="element-template">
         <li class="elements__item">
             <img class="elements__photo"
@@ -99,8 +111,11 @@
                 alt="Фото места">
             <div class="elements__description-container">
                 <h2 class="elements__description"></h2>
-                <button class="elements__like-button" type="button">
-                </button>
+                <div class="elements__like-wrapper">
+                    <button class="elements__like-button" type="button">
+                    </button>
+                    <p class="elements__like-counter">0</p>
+                </div>
             </div>
             <button class="elements__delete-button" type="button"></button>
         </li>

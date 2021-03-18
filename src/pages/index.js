@@ -14,7 +14,9 @@ import {
   cardAddingPopupFormElement,
   formsConfig,
 } from "../scripts/utils/constants.js";
-import { initialCards } from "../scripts/utils/initial-cards.js";
+import CardDeletePopup from "../scripts/components/CardDeletePopup.js";
+
+let cardsList = null;
 
 const photoPopup = new PopupWithImage(".photo-popup");
 photoPopup.setEventListeners();
@@ -36,6 +38,30 @@ const cardAddingPopup = new PopupWithForm(
 );
 cardAddingPopup.setEventListeners();
 
+const cardDeletingPopup = new CardDeletePopup(
+  "#card-deleting-popup",
+  handleDeleteForm
+);
+cardDeletingPopup.setEventListeners();
+
+function handleDeleteForm(card) {
+  const cardId = card.getId();
+  fetch(`https://mesto.nomoreparties.co/v1/cohort-21/cards/${cardId}`, {
+    method: "DELETE",
+    headers: {
+      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+    },
+  }).then((res) => {
+    if (res.status === 200) {
+      card.delete();
+    }
+  });
+}
+
+function handleDeletePopupOpen(card) {
+  cardDeletingPopup.open(card);
+}
+
 function openEditPopup() {
   editPopup.open();
 
@@ -45,6 +71,17 @@ function openEditPopup() {
 
 function handleEditFormSubmit(data) {
   userInfo.setUserInfo(data);
+  fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
+    method: "PATCH",
+    headers: {
+      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: data.name,
+      about: data.job,
+    }),
+  });
 }
 
 function handleOpenPhotoPoup(image, description) {
@@ -57,13 +94,35 @@ function handleCardAddingFormSubmit(data) {
     link: data["image-link"],
   };
 
-  const newCardElement = createCard(newCardData);
+  fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
+    method: "POST",
+    headers: {
+      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newCardData),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      const newCardElement = createCard({
+        name: data.name,
+        link: data.link,
+        likes: 0,
+        id: data._id,
+        allowDelete: true,
+      });
 
-  cardsList.addItem(newCardElement);
+      cardsList.addItem(newCardElement);
+    });
 }
 
 function createCard(data) {
-  const card = new Card(data, "#element-template", handleOpenPhotoPoup);
+  const card = new Card(
+    data,
+    "#element-template",
+    handleOpenPhotoPoup,
+    handleDeletePopupOpen
+  );
   return card.generateCard();
 }
 
@@ -74,28 +133,6 @@ editButton.addEventListener("click", () => {
 cardAddingButton.addEventListener("click", () => {
   cardAddingPopup.open();
 });
-
-fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
-  headers: {
-    authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-  },
-})
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    const cardsList = new Section(
-      {
-        items: data,
-        renderer: (item) => {
-          const cardElement = createCard(item);
-          cardsList.addItem(cardElement);
-        },
-      },
-      "#elements-list"
-    );
-
-    cardsList.renderItems();
-  });
 
 const editPopupFormValidator = new FormValidator(
   formsConfig,
@@ -123,4 +160,33 @@ fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
       name: result.name,
       job: result.about,
     });
+    return result._id;
+  })
+  .then((myId) => {
+    fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
+      headers: {
+        authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        cardsList = new Section(
+          {
+            items: data.reverse(),
+            renderer: (dataItem) => {
+              const cardData = {
+                name: dataItem.name,
+                link: dataItem.link,
+                likes: dataItem.likes.length,
+                id: dataItem._id,
+                allowDelete: dataItem.owner._id === myId,
+              };
+              const cardElement = createCard(cardData);
+              cardsList.addItem(cardElement);
+            },
+          },
+          "#elements-list"
+        );
+        cardsList.renderItems();
+      });
   });

@@ -19,8 +19,11 @@
 @import url("../blocks/elements/__photo/elements__photo.css");
 @import url("../blocks/elements/__description-container/elements__description-container.css");
 @import url("../blocks/elements/__description/elements__description.css");
+@import url("../blocks/elements/__like-wrapper/elements__like-wrapper.css");
 @import url("../blocks/elements/__like-button/elements__like-button.css");
+@import url("../blocks/elements/__like-counter/elements__like-counter.css");
 @import url("../blocks/elements/__delete-button/elements__delete-button.css");
+@import url("../blocks/elements/_hidden/elements__delete-button_hidden.css");
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__copyright/footer__copyright.css");
 @import url("../blocks/popup/popup.css");
