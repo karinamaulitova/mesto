@@ -18,7 +18,9 @@
 
             <section class="profile">
                 <div class="profile__container">
+                    <button class="profile__avatar-edit-button">
                     <img class="profile__avatar" src='./images/profile-photo.jpg' alt="Фото">
+                </button>
                     <div class="profile__info-wrapper">
                         <div class="profile__heading-button-wrapper">
                             <h1 class="profile__heading" id="profile-heading">Жак-Ив Кусто</h1>
@@ -79,13 +81,28 @@
 
         <section class="popup" id="card-deleting-popup">
             <div class="popup__form-container popup__container">
-                <h2 class="popup__heading">Вы уверены?</h2>
+                <h2 class="popup__heading popup__heading_type_without-input">Вы уверены?</h2>
                 <form class="popup__form" id="card-deleting-popup-form" name="delete-card" novalidate>
-                    <button class="popup__save-button" type="submit">Да</button>
+                    <button class="popup__save-button popup__save-button_type_without-input" type="submit">Да</button>
                 </form>
                 <button class="popup__close-button" id="card-delete-popup-close-button" type="button">
                 </button>
             </div>
+        </section>
+
+        <section class="popup" id="avatar-edit-popup">
+            <div class="popup__form-container popup__container">
+                <h2 class="popup__heading">Обновить аватар</h2>
+                <form class="popup__form" id="avatar-edit-popup-form" name="avatar" novalidate>
+                    <input class="popup__input" id="avatar-edit-popup-url-input" type="url" name="avatar-link"
+                    placeholder="Ссылка на картинку" required>
+                    <span class="popup__input-error avatar-edit-popup-url-input-error"></span>
+                    <button class="popup__save-button" type="submit">Сохранить</button>
+                </form>
+                <button class="popup__close-button" id="edit-profile-popup-close-button" type="button">
+                </button>
+            </div>
+
         </section>
 
     </div>

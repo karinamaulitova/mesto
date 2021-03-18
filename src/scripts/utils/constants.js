@@ -16,6 +16,16 @@ export const cardAddingPopupFormElement = document.querySelector(
   "#card-adding-popup-form"
 );
 
+export const avatarEditButton = document.querySelector(
+  ".profile__avatar-edit-button"
+);
+export const avatarEditFormElement = document.querySelector(
+  "#avatar-edit-popup-form"
+);
+export const avatarEditUrlInput = avatarEditFormElement.querySelector(
+  "#avatar-edit-popup-url-input"
+);
+
 export const formsConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -24,4 +34,3 @@ export const formsConfig = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__input-error_active",
 };
-

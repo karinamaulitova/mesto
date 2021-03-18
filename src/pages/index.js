@@ -13,6 +13,9 @@ import {
   cardAddingButton,
   cardAddingPopupFormElement,
   formsConfig,
+  avatarEditButton,
+  avatarEditFormElement,
+  avatarEditUrlInput,
 } from "../scripts/utils/constants.js";
 import CardDeletePopup from "../scripts/components/CardDeletePopup.js";
 
@@ -24,6 +27,7 @@ photoPopup.setEventListeners();
 const userInfo = new UserInfo({
   usernameSelector: "#profile-heading",
   jobSelector: "#profile-subheading",
+  avatarSelector: ".profile__avatar",
 });
 
 const editPopup = new PopupWithForm(
@@ -37,6 +41,12 @@ const cardAddingPopup = new PopupWithForm(
   handleCardAddingFormSubmit
 );
 cardAddingPopup.setEventListeners();
+
+const avatarEditPopup = new PopupWithForm(
+  "#avatar-edit-popup",
+  handleAvatarEditFormSubmit
+);
+avatarEditPopup.setEventListeners();
 
 const cardDeletingPopup = new CardDeletePopup(
   "#card-deleting-popup",
@@ -67,6 +77,16 @@ function openEditPopup() {
 
   editPopupNameInput.value = userInfo.getUserInfo().name;
   editPopupJobInput.value = userInfo.getUserInfo().job;
+}
+
+function handleAvatarEditFormSubmit(data) {
+  userInfo.setUserAvatar(data);
+}
+
+function openAvatarEditPoup() {
+  avatarEditPopup.open();
+
+  avatarEditUrlInput.value = userInfo.getUserInfo().avatar;
 }
 
 function handleEditFormSubmit(data) {
@@ -134,6 +154,10 @@ cardAddingButton.addEventListener("click", () => {
   cardAddingPopup.open();
 });
 
+avatarEditButton.addEventListener("click", () => {
+  openAvatarEditPoup();
+});
+
 const editPopupFormValidator = new FormValidator(
   formsConfig,
   editPopupFormElement
@@ -146,7 +170,11 @@ const cardAddingPopupFormValidator = new FormValidator(
 );
 cardAddingPopupFormValidator.enableValidation();
 
-const userAvatar = document.querySelector(".profile__avatar");
+const avatarEditPopupFormValidator = new FormValidator(
+  formsConfig,
+  avatarEditFormElement
+);
+avatarEditPopupFormValidator.enableValidation();
 
 fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
   headers: {
@@ -155,11 +183,11 @@ fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
 })
   .then((res) => res.json())
   .then((result) => {
-    userAvatar.src = result.avatar;
     userInfo.setUserInfo({
       name: result.name,
       job: result.about,
     });
+    userInfo.setUserAvatar({ avatar: result.avatar });
     return result._id;
   })
   .then((myId) => {
@@ -180,6 +208,9 @@ fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
                 likes: dataItem.likes.length,
                 id: dataItem._id,
                 allowDelete: dataItem.owner._id === myId,
+                likedByMe: dataItem.likes.some(
+                  (element) => element._id === myId
+                ),
               };
               const cardElement = createCard(cardData);
               cardsList.addItem(cardElement);

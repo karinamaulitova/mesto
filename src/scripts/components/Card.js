@@ -8,6 +8,7 @@ export default class Card {
     this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
     this._allowDelete = data.allowDelete;
+    this._likedByMe = data.likedByMe;
   }
 
   getId() {
@@ -22,8 +23,57 @@ export default class Card {
     return cardElement;
   }
 
+  _updateLikeState() {
+    if (this._likedByMe) {
+      this._likeButtonElement.classList.add("elements__like-button_active");
+    } else {
+      this._likeButtonElement.classList.remove("elements__like-button_active");
+    }
+    this._likesCounter.textContent = this._likes;
+  }
+
   _handleLike() {
-    this._likeButtonElement.classList.toggle("elements__like-button_active");
+    if (this._likedByMe) {
+      fetch(
+        `https://mesto.nomoreparties.co/v1/cohort-21/cards/likes/${this._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+          },
+        }
+      )
+        .then((res) => {
+          if (res.status === 200) {
+            this._likedByMe = false;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          this._likes = data.likes.length;
+          this._updateLikeState();
+        });
+    } else {
+      fetch(
+        `https://mesto.nomoreparties.co/v1/cohort-21/cards/likes/${this._id}`,
+        {
+          method: "PUT",
+          headers: {
+            authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+          },
+        }
+      )
+        .then((res) => {
+          if (res.status === 200) {
+            this._likedByMe = true;
+          }
+          return res.json();
+        })
+        .then((data) => {
+          this._likes = data.likes.length;
+          this._updateLikeState();
+        });
+    }
   }
 
   delete() {
@@ -55,12 +105,13 @@ export default class Card {
       ".elements__delete-button"
     );
 
-    if(!this._allowDelete) {
-      this._deleteButtonElement.classList.add('elements__delete-button_hidden');
+    if (!this._allowDelete) {
+      this._deleteButtonElement.classList.add("elements__delete-button_hidden");
     }
-    
+
     this._likesCounter = this._element.querySelector(".elements__like-counter");
     this._setEventListeners();
+    this._updateLikeState();
 
     this._likesCounter.textContent = this._likes;
     this._imageElement.src = this._image;
