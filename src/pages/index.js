@@ -80,7 +80,18 @@ function openEditPopup() {
 }
 
 function handleAvatarEditFormSubmit(data) {
-  userInfo.setUserAvatar(data);
+  fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me/avatar", {
+    method: "PATCH",
+    headers: {
+      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({avatar: data.avatar}),
+  }).then(res => {
+    if(res.status === 200){
+      userInfo.setUserAvatar({avatar: data.avatar});
+    }
+  });
 }
 
 function openAvatarEditPoup() {
