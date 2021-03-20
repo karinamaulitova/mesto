@@ -18,8 +18,17 @@ import {
   avatarEditUrlInput,
 } from "../scripts/utils/constants.js";
 import CardDeletePopup from "../scripts/components/CardDeletePopup.js";
+import Api from "../scripts/components/Api.js";
 
 let cardsList = null;
+
+const api = new Api({
+  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-21",
+  headers: {
+    authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
+    "Content-Type": "application/json",
+  },
+});
 
 const photoPopup = new PopupWithImage(".photo-popup");
 photoPopup.setEventListeners();
@@ -56,16 +65,14 @@ cardDeletingPopup.setEventListeners();
 
 function handleDeleteForm(card) {
   const cardId = card.getId();
-  fetch(`https://mesto.nomoreparties.co/v1/cohort-21/cards/${cardId}`, {
-    method: "DELETE",
-    headers: {
-      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-    },
-  }).then((res) => {
-    if (res.status === 200) {
+  return api
+    .deleteCard(cardId)
+    .then(() => {
       card.delete();
-    }
-  });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function handleDeletePopupOpen(card) {
@@ -80,18 +87,14 @@ function openEditPopup() {
 }
 
 function handleAvatarEditFormSubmit(data) {
-  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me/avatar", {
-    method: "PATCH",
-    headers: {
-      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({avatar: data.avatar}),
-  }).then(res => {
-    if(res.status === 200){
-      userInfo.setUserAvatar({avatar: data.avatar});
-    }
-  });
+  return api
+    .changeUserAvatar(data)
+    .then(() => {
+      userInfo.setUserAvatar({ avatar: data.avatar });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function openAvatarEditPoup() {
@@ -101,18 +104,14 @@ function openAvatarEditPoup() {
 }
 
 function handleEditFormSubmit(data) {
-  userInfo.setUserInfo(data);
-  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
-    method: "PATCH",
-    headers: {
-      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      name: data.name,
-      about: data.job,
-    }),
-  });
+  return api
+    .changeUserInfo(data)
+    .then(() => {
+      userInfo.setUserInfo(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function handleOpenPhotoPoup(image, description) {
@@ -125,15 +124,8 @@ function handleCardAddingFormSubmit(data) {
     link: data["image-link"],
   };
 
-  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
-    method: "POST",
-    headers: {
-      authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(newCardData),
-  })
-    .then((res) => res.json())
+  return api
+    .createNewCard(newCardData)
     .then((data) => {
       const newCardElement = createCard({
         name: data.name,
@@ -144,6 +136,9 @@ function handleCardAddingFormSubmit(data) {
       });
 
       cardsList.addItem(newCardElement);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
@@ -187,12 +182,8 @@ const avatarEditPopupFormValidator = new FormValidator(
 );
 avatarEditPopupFormValidator.enableValidation();
 
-fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
-  headers: {
-    authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-  },
-})
-  .then((res) => res.json())
+api
+  .getMyInfo()
   .then((result) => {
     userInfo.setUserInfo({
       name: result.name,
@@ -202,33 +193,28 @@ fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
     return result._id;
   })
   .then((myId) => {
-    fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
-      headers: {
-        authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        cardsList = new Section(
-          {
-            items: data.reverse(),
-            renderer: (dataItem) => {
-              const cardData = {
-                name: dataItem.name,
-                link: dataItem.link,
-                likes: dataItem.likes.length,
-                id: dataItem._id,
-                allowDelete: dataItem.owner._id === myId,
-                likedByMe: dataItem.likes.some(
-                  (element) => element._id === myId
-                ),
-              };
-              const cardElement = createCard(cardData);
-              cardsList.addItem(cardElement);
-            },
+    return api.getInitialCards().then((data) => {
+      cardsList = new Section(
+        {
+          items: data.reverse(),
+          renderer: (dataItem) => {
+            const cardData = {
+              name: dataItem.name,
+              link: dataItem.link,
+              likes: dataItem.likes.length,
+              id: dataItem._id,
+              allowDelete: dataItem.owner._id === myId,
+              likedByMe: dataItem.likes.some((element) => element._id === myId),
+            };
+            const cardElement = createCard(cardData);
+            cardsList.addItem(cardElement);
           },
-          "#elements-list"
-        );
-        cardsList.renderItems();
-      });
+        },
+        "#elements-list"
+      );
+      cardsList.renderItems();
+    });
+  })
+  .catch((err) => {
+    console.log(err);
   });
