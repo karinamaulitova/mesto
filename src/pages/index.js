@@ -97,7 +97,7 @@ function handleAvatarEditFormSubmit(data) {
     });
 }
 
-function openAvatarEditPoup() {
+function openAvatarEditPopup() {
   avatarEditPopup.open();
 
   avatarEditUrlInput.value = userInfo.getUserInfo().avatar;
@@ -114,7 +114,7 @@ function handleEditFormSubmit(data) {
     });
 }
 
-function handleOpenPhotoPoup(image, description) {
+function handleOpenPhotoPopup(image, description) {
   photoPopup.open(image, description);
 }
 
@@ -146,7 +146,7 @@ function createCard(data) {
   const card = new Card(
     data,
     "#element-template",
-    handleOpenPhotoPoup,
+    handleOpenPhotoPopup,
     handleDeletePopupOpen
   );
   return card.generateCard();
@@ -161,7 +161,7 @@ cardAddingButton.addEventListener("click", () => {
 });
 
 avatarEditButton.addEventListener("click", () => {
-  openAvatarEditPoup();
+  openAvatarEditPopup();
 });
 
 const editPopupFormValidator = new FormValidator(
@@ -182,39 +182,35 @@ const avatarEditPopupFormValidator = new FormValidator(
 );
 avatarEditPopupFormValidator.enableValidation();
 
-api
-  .getMyInfo()
-  .then((result) => {
+Promise.all([api.getMyInfo(), api.getInitialCards()])
+  .then(([userData, initialCards]) => {
     userInfo.setUserInfo({
-      name: result.name,
-      job: result.about,
+      name: userData.name,
+      job: userData.about,
     });
-    userInfo.setUserAvatar({ avatar: result.avatar });
-    return result._id;
-  })
-  .then((myId) => {
-    return api.getInitialCards().then((data) => {
-      cardsList = new Section(
-        {
-          items: data.reverse(),
-          renderer: (dataItem) => {
-            const cardData = {
-              name: dataItem.name,
-              link: dataItem.link,
-              likes: dataItem.likes.length,
-              id: dataItem._id,
-              allowDelete: dataItem.owner._id === myId,
-              likedByMe: dataItem.likes.some((element) => element._id === myId),
-            };
-            const cardElement = createCard(cardData);
-            cardsList.addItem(cardElement);
-          },
+    userInfo.setUserAvatar({ avatar: userData.avatar });
+    const myId = userData._id;
+    cardsList = new Section(
+      {
+        items: initialCards.reverse(),
+        renderer: (dataItem) => {
+          const cardData = {
+            name: dataItem.name,
+            link: dataItem.link,
+            likes: dataItem.likes.length,
+            id: dataItem._id,
+            allowDelete: dataItem.owner._id === myId,
+            likedByMe: dataItem.likes.some((element) => element._id === myId),
+          };
+          const cardElement = createCard(cardData);
+          cardsList.addItem(cardElement);
         },
-        "#elements-list"
-      );
-      cardsList.renderItems();
-    });
+      },
+      "#elements-list"
+    );
+    cardsList.renderItems();
   })
   .catch((err) => {
     console.log(err);
   });
+
