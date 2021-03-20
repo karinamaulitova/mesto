@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, cardSelector, handleCardClick, handleDeleteClick) {
+  constructor(data, cardSelector, handleCardClick, handleDeleteClick, api) {
     this._image = data.link;
     this._description = data.name;
     this._likes = data.likes;
@@ -9,6 +9,7 @@ export default class Card {
     this._handleDeleteClick = handleDeleteClick;
     this._allowDelete = data.allowDelete;
     this._likedByMe = data.likedByMe;
+    this._api = api;
   }
 
   getId() {
@@ -34,45 +35,17 @@ export default class Card {
 
   _handleLike() {
     if (this._likedByMe) {
-      fetch(
-        `https://mesto.nomoreparties.co/v1/cohort-21/cards/likes/${this._id}`,
-        {
-          method: "DELETE",
-          headers: {
-            authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-          },
-        }
-      )
-        .then((res) => {
-          if (res.status === 200) {
-            this._likedByMe = false;
-          }
-          return res.json();
-        })
-        .then((data) => {
-          this._likes = data.likes.length;
-          this._updateLikeState();
-        });
+      this._api.deleteLike(this._id).then((data) => {
+        this._likedByMe = false;
+        this._likes = data.likes.length;
+        this._updateLikeState();
+      });
     } else {
-      fetch(
-        `https://mesto.nomoreparties.co/v1/cohort-21/cards/likes/${this._id}`,
-        {
-          method: "PUT",
-          headers: {
-            authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
-          },
-        }
-      )
-        .then((res) => {
-          if (res.status === 200) {
-            this._likedByMe = true;
-          }
-          return res.json();
-        })
-        .then((data) => {
-          this._likes = data.likes.length;
-          this._updateLikeState();
-        });
+      this._api.setLike(this._id).then((data) => {
+        this._likedByMe = true;
+        this._likes = data.likes.length;
+        this._updateLikeState();
+      });
     }
   }
 

@@ -17,8 +17,8 @@ export default class CardDeletePopup extends Popup {
         super.setEventListeners();
         this._form.addEventListener("submit", (evt) => {
           evt.preventDefault();
-          this._handleDeleteCard(this._card);
-          this.close();
+          Promise.resolve(this._handleDeleteCard(this._card)).then(()=>{this.close()});
+
         });
       }
 }

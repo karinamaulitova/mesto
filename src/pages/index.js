@@ -147,7 +147,8 @@ function createCard(data) {
     data,
     "#element-template",
     handleOpenPhotoPopup,
-    handleDeletePopupOpen
+    handleDeletePopupOpen,
+    api
   );
   return card.generateCard();
 }
@@ -213,4 +214,3 @@ Promise.all([api.getMyInfo(), api.getInitialCards()])
   .catch((err) => {
     console.log(err);
   });
-
