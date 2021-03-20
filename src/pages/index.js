@@ -80,7 +80,7 @@ function openEditPopup() {
 }
 
 function handleAvatarEditFormSubmit(data) {
-  fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me/avatar", {
+  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me/avatar", {
     method: "PATCH",
     headers: {
       authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
@@ -102,7 +102,7 @@ function openAvatarEditPoup() {
 
 function handleEditFormSubmit(data) {
   userInfo.setUserInfo(data);
-  fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
+  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/users/me", {
     method: "PATCH",
     headers: {
       authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
@@ -125,7 +125,7 @@ function handleCardAddingFormSubmit(data) {
     link: data["image-link"],
   };
 
-  fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
+  return fetch("https://mesto.nomoreparties.co/v1/cohort-21/cards", {
     method: "POST",
     headers: {
       authorization: "b2348cde-61a3-4142-9d82-9cb96e2dc5c9",
